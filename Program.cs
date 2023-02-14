@@ -33,9 +33,27 @@ namespace ConsoleApp
                 {
                     responseBody = "<html><body><h1>Second Page</h1></body></html>";
                 }
+                else if (requestString.Contains("/fourth/"))
+                {
+                    responseBody = "<html><body><h1>fourth Page</h1></body></html>";
+                }
+                else if (requestString.Contains("/third/"))
+                {
+                    responseBody = "<html><body><h1>Third Page</h1></body></html>";
+                }
+                else if (requestString.Contains("/home/"))
+                {
+                    responseBody = "<html><head><style>.center {display: flex;align-items: center;justify-content: center;height: 100vh;}</style></head><body><div class='center'><h1>Begin Page</h1></div><a href = \"/start/\">ghfgh</a></body></html>";
+                }
                 else
                 {
-                    responseBody = "<html><head><style>.center {display: flex;align-items: center;justify-content: center;height: 100vh;}</style></head><body><div class='center'><h1>Begin Page</h1></div></body></html>";
+                    Console.WriteLine("Error: Endpoint not found");
+                    responseString = "HTTP/1.1 404 Not Found\nContent-Type: text/html\nContent-Length: 0\n\n";
+                    byte[] res = Encoding.UTF8.GetBytes(responseString);
+                    stream.Write(res, 0, res.Length);
+                    stream.Close();
+                    client.Close();
+                    continue;
                 }
                 responseString = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: " + responseBody.Length + "\n\n" + responseBody;
                 byte[] response = Encoding.UTF8.GetBytes(responseString);
